@@ -1,0 +1,6 @@
+RED_PWM = 12
+GREEN_PWM = 0
+BLUE_PWM = 1
+
+TRIGGER_PIN = 4
+NAME = 'DeskLeft'

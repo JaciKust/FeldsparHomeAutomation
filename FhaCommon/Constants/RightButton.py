@@ -1,0 +1,6 @@
+RED_PWM = 13
+GREEN_PWM = 2
+BLUE_PWM = 3
+
+TRIGGER_PIN = 17
+NAME = 'DeskRight'

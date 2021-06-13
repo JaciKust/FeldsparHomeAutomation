@@ -1,0 +1,6 @@
+RED_PWM = 14
+GREEN_PWM = 4
+BLUE_PWM = 5
+
+TRIGGER_PIN = 18
+NAME = 'DeskRear'
