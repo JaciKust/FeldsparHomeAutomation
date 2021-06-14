@@ -1,6 +1,9 @@
-import colorsys
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-from Constants import LightKelvin as LightKelvinConstant
+import colorsys
+from FhaCommon.Constants import LightKelvin as LightKelvinConstant
 
 
 class Color:
@@ -47,6 +50,9 @@ class Color:
 def get_white(temperature):
     return Color(100, 100, 100, temperature)
 
+RED_LOCATION = 0
+GREEN_LOCATION = 1
+BLUE_LOCATION = 2
 
 DIM = 20
 DARK = 1

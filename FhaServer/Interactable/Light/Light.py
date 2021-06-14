@@ -1,5 +1,5 @@
-from Interactable.Light.LifxLamp import LifxLamp
-from Interactable.Light.LifxLight import LifxLight
+from FhaServer.Interactable.Light.LifxLamp import LifxLamp
+from FhaServer.Interactable.Light.LifxLight import LifxLight
 
 alpha = LifxLight('d0:73:d5:2b:5b:08', '192.168.0.200', 'Alpha')
 foxtrot = LifxLight('D0:73:D5:40:15:4C', '192.168.0.205', 'Foxtrot')

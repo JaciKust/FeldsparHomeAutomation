@@ -1,8 +1,8 @@
 import threading
 
-import Color as ColorConstant
-import Interactable.Light.Light as LightConstant
-from State.AwakeLightsOffState import AwakeLightsOffState
+import FhaCommon.Color as ColorConstant
+import FhaServer.Interactable.Light.Light as LightConstant
+from FhaServer.State.AwakeLightsOffState import AwakeLightsOffState
 
 
 class DeskState(AwakeLightsOffState):
@@ -42,7 +42,7 @@ class DeskState(AwakeLightsOffState):
     # region Button Actions
 
     def on_primary_long_press(self):
-        from State.AwakeLightsOnState import AwakeLightsOnState
+        from FhaServer.State.AwakeLightsOnState import AwakeLightsOnState
         return AwakeLightsOnState(self)
 
     def on_desk_left_short_press(self):
@@ -63,7 +63,7 @@ class DeskState(AwakeLightsOffState):
         if self.all_lights_on:
             return AwakeLightsOffState(self)
         else:
-            from State.AwakeLightsOnState import AwakeLightsOnState
+            from FhaServer.State.AwakeLightsOnState import AwakeLightsOnState
             return AwakeLightsOnState(self)
 
     def on_door_long_press(self):

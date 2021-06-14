@@ -1,17 +1,21 @@
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+
 import threading
 import time
 
 from RPi import GPIO
 
-from Constants import Transmitter as TransmitterConstant
-from Interactable.Toggleable import Toggleable
+from FhaClient.Constants import Transmitter as TransmitterConstant
+from FhaClient.DatabaseToggleable import DatabaseToggleable
 
 
 class TransmitterLock:
     is_locked = False
 
 
-class OutletSwitch(Toggleable):
+class OutletSwitch(DatabaseToggleable):
     def __init__(self, database_id, codes, gpio_pin, one_high_time, one_low_time, zero_high_time, zero_low_time,
                  interval, max_time_on=None):
         super().__init__(database_id, max_time_on)
@@ -26,9 +30,11 @@ class OutletSwitch(Toggleable):
 
     def _execute_set_on(self):
         self._send_code(self._on_code)
+        super()._execute_set_on()
 
     def _execute_set_off(self):
         self._send_code(self._off_code)
+        super()._execute_set_off()
 
     def _send_code(self, code):
         threading.Thread(target=self._run, args=[code, ]).start()

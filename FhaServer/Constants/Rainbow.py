@@ -1,5 +1,9 @@
-import Color
-import Interactable.Light.Light as Light
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+
+import FhaCommon.Color as Color
+import FhaServer.Interactable.Light.Light as Light
 
 primary_color_3 = [
     Color.RED,

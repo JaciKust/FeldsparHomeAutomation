@@ -1,8 +1,8 @@
-import Color as ColorConstant
-import Interactable.Light.Light as LightConstant
-import TimeFunctions
-from Constants import Time as TimeConstant
-from State.State import State
+import FhaCommon.Color as ColorConstant
+import FhaServer.Interactable.Light.Light as LightConstant
+from FhaServer import TimeFunctions
+from FhaServer.Constants import Time as TimeConstant
+from FhaServer.State.State import State
 
 class AwakeLightsOffState(State):
     id = 3
@@ -47,15 +47,15 @@ class AwakeLightsOffState(State):
     # region Button Actions
 
     def on_primary_short_press(self):
-        from State.AwakeLightsOnState import AwakeLightsOnState
+        from FhaServer.State.AwakeLightsOnState import AwakeLightsOnState
         return AwakeLightsOnState(self)
 
     def on_primary_long_press(self):
-        from State.AsleepLightsOffState import AsleepLightsOffState
+        from FhaServer.State.AsleepLightsOffState import AsleepLightsOffState
         return AsleepLightsOffState(TimeFunctions.get_next(TimeConstant.wakeup_time), self)
 
     def on_primary_extra_long_press(self):
-        from State.Rainbow.RainbowState import RainbowState
+        from FhaServer.State.Rainbow.RainbowState import RainbowState
         return RainbowState()
 
     def on_door_short_press(self):

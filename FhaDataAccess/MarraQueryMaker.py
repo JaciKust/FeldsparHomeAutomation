@@ -1,13 +1,13 @@
-import os
 import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 import psycopg2 as psycopg2
 
-from Interactable.TimeStampedState import TimeStampedState
-from Sql import MarraQuery
+from FhaDataAccess.TimeStampedState import TimeStampedState
+from FhaDataAccess import MarraQuery
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'Common'))
-import MarraDatabaseConfig
 import logging
 
 class MarraQueryMaker:

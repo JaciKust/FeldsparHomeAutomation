@@ -2,8 +2,8 @@ from datetime import timedelta
 
 from RPi import GPIO
 
-from Constants import Transmitter as TransmitterConstant
-from Interactable.OutletSwitch import OutletSwitch
+from FhaClient.Constants import Transmitter as TransmitterConstant
+from FhaClient.OutletSwitch import OutletSwitch
 
 
 class Transmitter433:

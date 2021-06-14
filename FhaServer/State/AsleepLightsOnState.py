@@ -1,8 +1,8 @@
 import datetime
 
-import Color as ColorConstant
-import Interactable.Light.Light as LightConstant
-from State.State import State
+import FhaCommon.Color as ColorConstant
+import FhaServer.Interactable.Light.Light as LightConstant
+from FhaServer.State.State import State
 
 
 class AsleepLightsOnState(State):
@@ -49,11 +49,11 @@ class AsleepLightsOnState(State):
     # region Button Actions
 
     def on_primary_short_press(self):
-        from State.AsleepLightsOffState import AsleepLightsOffState
+        from FhaServer.State.AsleepLightsOffState import AsleepLightsOffState
         return AsleepLightsOffState(self.wake_time, self, self.auto_alarm)
 
     def on_primary_long_press(self):
-        from State.AwakeLightsOnState import AwakeLightsOnState
+        from FhaServer.State.AwakeLightsOnState import AwakeLightsOnState
 
         if not self.all_lights_on:
             LightConstant.all_lamp.turn_on(ColorConstant.DIMMEST_WHITE)
@@ -74,7 +74,7 @@ class AsleepLightsOnState(State):
 
         current_time = datetime.datetime.now()
         if self.auto_alarm and self.wake_time < current_time:
-            from State.WakingUpState1 import WakingUpState1
+            from FhaServer.State.WakingUpState1 import WakingUpState1
             return WakingUpState1(self.wake_time)
         return None
 

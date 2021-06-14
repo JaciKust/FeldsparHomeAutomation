@@ -1,11 +1,11 @@
 import threading
 import time
 
-import Color as ColorConstant
-import Interactable.Light.Light as LightConstant
-import TimeFunctions
-from Constants import Time as TimeConstant
-from State.State import State
+import FhaCommon.Color as ColorConstant
+import FhaServer.Interactable.Light.Light as LightConstant
+from FhaServer import TimeFunctions
+from FhaServer.Constants import Time as TimeConstant
+from FhaServer.State.State import State
 
 
 class AwakeLightsOnState(State):
@@ -17,8 +17,8 @@ class AwakeLightsOnState(State):
 
     def execute_state_change(self):
         super().execute_state_change()
-        from State.AsleepLightsOffState import AsleepLightsOffState
-        from State.AsleepLightsOnState import AsleepLightsOnState
+        from FhaServer.State.AsleepLightsOffState import AsleepLightsOffState
+        from FhaServer.State.AsleepLightsOnState import AsleepLightsOnState
 
         self.fan.set_off()
 
@@ -28,7 +28,7 @@ class AwakeLightsOnState(State):
             transition_time_ms = 10_000
         LightConstant.all_lamp.turn_on(self.current_white, transition_time_ms)
 
-        from State.WakingUpState2 import WakingUpState2
+        from FhaServer.State.WakingUpState2 import WakingUpState2
         if isinstance(self.previous_state, WakingUpState2):
             self.set_default_white()
         plant_light_thread = threading.Thread(target=self.wait_run_accessories_on, args=(transition_time_ms / 1000,))
@@ -82,19 +82,19 @@ class AwakeLightsOnState(State):
     # region Button Actions
 
     def on_primary_short_press(self):
-        from State.AwakeLightsOffState import AwakeLightsOffState
+        from FhaServer.State.AwakeLightsOffState import AwakeLightsOffState
         return AwakeLightsOffState(self)
 
     def on_primary_long_press(self):
-        from State.AsleepLightsOffState import AsleepLightsOffState
+        from FhaServer.State.AsleepLightsOffState import AsleepLightsOffState
         return AsleepLightsOffState(TimeFunctions.get_next(TimeConstant.wakeup_time), self)
 
     def on_primary_extra_long_press(self):
-        from State.Rainbow.RainbowState import RainbowState
+        from FhaServer.State.Rainbow.RainbowState import RainbowState
         return RainbowState()
 
     def on_desk_left_long_press(self):
-        from State.DeskState import DeskState
+        from FhaServer.State.DeskState import DeskState
         return DeskState(self)
 
     def on_door_short_press(self):

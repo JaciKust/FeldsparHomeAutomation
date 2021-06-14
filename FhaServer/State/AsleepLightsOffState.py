@@ -1,8 +1,8 @@
 import datetime
 
-import Color as ColorConstant
-import Interactable.Light.Light as LightConstant
-from State.State import State
+import FhaCommon.Color as ColorConstant
+import FhaServer.Interactable.Light.Light as LightConstant
+from FhaServer.State.State import State
 
 
 class AsleepLightsOffState(State):
@@ -19,7 +19,7 @@ class AsleepLightsOffState(State):
 
     def execute_state_change(self):
         super().execute_state_change()
-        from State.AwakeLightsOnState import AwakeLightsOnState
+        from FhaServer.State.AwakeLightsOnState import AwakeLightsOnState
 
         transition_time = 0
         # If coming from Awake Lights On change over ten seconds
@@ -54,11 +54,11 @@ class AsleepLightsOffState(State):
     # region Button Actions
 
     def on_primary_short_press(self):
-        from State.AsleepLightsOnState import AsleepLightsOnState
+        from FhaServer.State.AsleepLightsOnState import AsleepLightsOnState
         return AsleepLightsOnState(self.wake_time, self, self.auto_alarm)
 
     def on_primary_long_press(self):
-        from State.AwakeLightsOnState import AwakeLightsOnState
+        from FhaServer.State.AwakeLightsOnState import AwakeLightsOnState
         return AwakeLightsOnState(self)
 
     def on_primary_extra_long_press(self):
@@ -74,7 +74,7 @@ class AsleepLightsOffState(State):
 
         # Should start the wake up process
         if self.auto_alarm and self.wake_time < current_time:
-            from State.WakingUpState1 import WakingUpState1
+            from FhaServer.State.WakingUpState1 import WakingUpState1
             return WakingUpState1(self.wake_time)
         return None
 

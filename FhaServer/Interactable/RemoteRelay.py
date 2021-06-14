@@ -1,4 +1,4 @@
-from Interactable.Toggleable import Toggleable
+from FhaServer.Interactable.Toggleable import Toggleable
 
 
 class RemoteRelay(Toggleable):

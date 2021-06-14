@@ -2,13 +2,9 @@ import logging
 import threading
 from datetime import datetime, timedelta
 
-import Color as ColorConstant
-from Constants import Button as ButtonConstant
-from Constants import DeskButton as DeskButtonConstant
-from Constants import DoorButton as DoorButtonConstant
-from Constants import PrimaryButton as PrimaryButtonConstant
+import FhaCommon.Color as ColorConstant
+from FhaCommon.Constants import Button as ButtonConstant
 from Constants import Relay as RelayConstant
-from Constants import SecondaryButton as SecondaryButtonConstant
 from Interactable import Relays as RelayConstant
 from Sql.MarraQueryMaker import MarraQueryMaker
 from Transmitter433 import Transmitter433

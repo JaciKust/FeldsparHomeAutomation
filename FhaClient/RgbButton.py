@@ -2,9 +2,9 @@ import time
 from datetime import datetime
 
 from RPi import GPIO
-from FhaCommon.Constants import Button as ButtonConstant, Color as ColorConstant
+from FhaCommon.Constants import Button as ButtonConstant
 from FhaClient import PwmHat
-
+from FhaCommon import Color
 
 class RgbButton:
     current_color = None
@@ -13,7 +13,7 @@ class RgbButton:
 
     def __init__(self, json_button):
         GPIO.setup(json_button.trigger_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-        self.colors = [ColorConstant.BLACK, ColorConstant.BLACK, ColorConstant.BLACK]
+        self.colors = [Color.BLACK.as_rgb_array(), Color.BLACK.as_rgb_array(), Color.BLACK.as_rgb_array()]
         self.pwm_hat = PwmHat.default_i2c_hat
 
         self.group = json_button.group
@@ -29,9 +29,9 @@ class RgbButton:
         if self.previous_color == color:
             return
         self.previous_color = color
-        self.pwm_hat.set_color(self.red_pwm_channel, color[ColorConstant.RED_LOCATION])
-        self.pwm_hat.set_color(self.green_pwm_channel, color[ColorConstant.GREEN_LOCATION])
-        self.pwm_hat.set_color(self.blue_pwm_channel, color[ColorConstant.BLUE_LOCATION])
+        self.pwm_hat.set_color(self.red_pwm_channel, color[Color.RED_LOCATION])
+        self.pwm_hat.set_color(self.green_pwm_channel, color[Color.GREEN_LOCATION])
+        self.pwm_hat.set_color(self.blue_pwm_channel, color[Color.BLUE_LOCATION])
 
     def set_if_for(self, button_color):
         # TODO: impl for_group and for_name.
