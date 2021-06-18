@@ -1,2 +1,0 @@
-BIND_TO_ADDR = '*'
-BIND_TO_PORT = '5555'

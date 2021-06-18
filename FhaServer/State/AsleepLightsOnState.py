@@ -2,6 +2,7 @@ import datetime
 
 import FhaCommon.Color as ColorConstant
 import FhaServer.Interactable.Light.Light as LightConstant
+from FhaCommon import ControlPanelState
 from FhaServer.State.State import State
 
 
@@ -17,32 +18,22 @@ class AsleepLightsOnState(State):
         self.auto_alarm = auto_alarm
         self.wake_time = wake_time
         self.all_lights_on = False
+        self.panel_state = ControlPanelState.DIM
 
     def execute_state_change(self):
         super().execute_state_change()
         self._set_room_partial_on()
 
-        self.plant_lights.set_off()
-        self.fan.set_on()
-        self.oddish_light.set_off()
-        self.monitor.set_off()
+        # self.plant_lights.set_off()
+        # self.fan.set_on()
+        # self.oddish_light.set_off()
+        # self.monitor.set_off()
 
     def _set_room_partial_on(self):
         LightConstant.entry_lamp.turn_on(ColorConstant.DIMMEST_WHITE, 0)
         LightConstant.jaci_bedside_lamp.turn_on(ColorConstant.DIMMEST_WHITE, 0)
 
     # region Button Color
-
-    def get_primary_button_colors(self):
-        if self.auto_alarm:
-            return [ColorConstant.DARK_RED, ColorConstant.DIM_RED, ColorConstant.DIM_BLUE]
-        return [ColorConstant.DARK_GREEN, ColorConstant.DIM_GREEN, ColorConstant.DIM_BLUE]
-
-    def get_secondary_button_colors(self):
-        return [ColorConstant.DARK_BLUE, ColorConstant.DARK_GREEN, ColorConstant.DARK_RED]
-
-    def get_desk_rear_button_colors(self):
-        return [ColorConstant.BLACK, ColorConstant.DARK_GREEN, ColorConstant.DARK_RED]
 
     # endregion
 
@@ -70,12 +61,13 @@ class AsleepLightsOnState(State):
     # region On Event
 
     def on_time_check(self):
-        super().on_time_check()
-
-        current_time = datetime.datetime.now()
-        if self.auto_alarm and self.wake_time < current_time:
-            from FhaServer.State.WakingUpState1 import WakingUpState1
-            return WakingUpState1(self.wake_time)
+        #
+        # super().on_time_check()
+        #
+        # current_time = datetime.datetime.now()
+        # if self.auto_alarm and self.wake_time < current_time:
+        #     from FhaServer.State.WakingUpState1 import WakingUpState1
+        #     return WakingUpState1(self.wake_time)
         return None
 
     # endregion

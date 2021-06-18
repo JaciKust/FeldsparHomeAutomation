@@ -2,6 +2,7 @@ import threading
 
 import FhaCommon.Color as ColorConstant
 import FhaServer.Interactable.Light.Light as LightConstant
+from FhaCommon import ControlPanelState
 from FhaServer.State.AwakeLightsOffState import AwakeLightsOffState
 
 
@@ -12,6 +13,7 @@ class DeskState(AwakeLightsOffState):
     def __init__(self, previous_state=None):
         super().__init__(previous_state)
         self.all_lights_on = False
+        self.panel_state = ControlPanelState.ON
 
     def execute_state_change(self):
         print("State changed to " + self.name)
@@ -22,20 +24,11 @@ class DeskState(AwakeLightsOffState):
         self.current_white = ColorConstant.WHITE_CLOUDY_DAYLIGHT
         self.set_lighting_level(False)
 
-        self.plant_lights.soft_set_on()
-        self.oddish_light.soft_set_on()
-        self.monitor.set_off()
+        # self.plant_lights.soft_set_on()
+        # self.oddish_light.soft_set_on()
+        # self.monitor.set_off()
 
     # region Button Color
-
-    def get_desk_rear_button_colors(self):
-        return [ColorConstant.DIM_GREEN, ColorConstant.GREEN, ColorConstant.BLUE]
-
-    def get_desk_left_button_colors(self):
-        return [ColorConstant.DIM_RED, ColorConstant.RED, ColorConstant.BLUE]
-
-    def get_desk_right_button_colors(self):
-        return [ColorConstant.DIM_BLUE, ColorConstant.BLUE, ColorConstant.RED]
 
     # endregion
 
@@ -74,6 +67,6 @@ class DeskState(AwakeLightsOffState):
     # region On Event
 
     def on_kelvin_changed(self):
-        self.set_lighting_level(False)
-
+        pass
+        # self.set_lighting_level(False)
     # endregion

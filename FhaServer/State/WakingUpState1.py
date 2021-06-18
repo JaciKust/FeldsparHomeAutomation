@@ -19,15 +19,12 @@ class WakingUpState1(WakingUpState):
         transition_time = TimeConstant.waking_up_1_duration_minutes * 60 * 1_000
         LightConstant.desk_lamp.turn_on(self.current_white, transition_time)
 
-        self.plant_lights.set_off()
-        self.fan.set_on()
-        self.oddish_light.set_off()
-        self.monitor.set_off()
+        # self.plant_lights.set_off()
+        # self.fan.set_on()
+        # self.oddish_light.set_off()
+        # self.monitor.set_off()
 
     # region Button Color
-
-    def get_primary_button_colors(self):
-        return [ColorConstant.DARK_CYAN, ColorConstant.DARK_RED, ColorConstant.BLUE]
 
     # endregion
 
@@ -38,7 +35,7 @@ class WakingUpState1(WakingUpState):
 
         current_time = datetime.datetime.now()
         if current_time > self.state_complete_time:
-            from State.WakingUpState2 import WakingUpState2
+            from FhaServer.State.WakingUpState2 import WakingUpState2
             return WakingUpState2(self.wake_up_time)
         return None
 

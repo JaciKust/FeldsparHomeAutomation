@@ -22,15 +22,12 @@ class WakingUpState2(WakingUpState):
         LightConstant.entry_lamp.turn_on(self.current_white, transition_time)
         LightConstant.jaci_bedside_lamp.turn_on(self.current_white, transition_time)
 
-        self.plant_lights.set_off()
-        self.fan.set_on()
-        self.oddish_light.set_off()
-        self.monitor.set_off()
+        # self.plant_lights.set_off()
+        # self.fan.set_on()
+        # self.oddish_light.set_off()
+        # self.monitor.set_off()
 
     # region Button Color
-
-    def get_primary_button_colors(self):
-        return [ColorConstant.DARK_MAGENTA, ColorConstant.DARK_RED, ColorConstant.BLUE]
 
     # endregion
 
@@ -41,7 +38,7 @@ class WakingUpState2(WakingUpState):
 
         current_time = datetime.datetime.now()
         if current_time > self.state_complete_time:
-            from State.AwakeLightsOnState import AwakeLightsOnState
+            from FhaServer.State.AwakeLightsOnState import AwakeLightsOnState
             return AwakeLightsOnState(self)
         return None
 

@@ -1,0 +1,7 @@
+ON = "On"
+DIM = "Dim"
+MINIMAL = "Minimal"
+DARKENED = "Darkened"
+OFF = "Off"
+MAIN = "Main"
+PRE_INIT = "Pre-init"

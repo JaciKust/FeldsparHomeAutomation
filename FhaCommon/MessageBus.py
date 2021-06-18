@@ -5,50 +5,67 @@ import time
 import zmq
 import logging
 
+from events import Events
+
 
 class MessageBus:
-    def __init__(self, light_server_json, handler):
-        logging.info('Starting')
+    def __init__(self, outgoing_ip, incoming_ip, incoming_port, outgoing_port, request_timeout, request_retries, send_receipt):
+        logging.info('Starting Message bus')
 
-        self.light_server_json = light_server_json
-        self.handler = handler
+        self.outgoing_ip = outgoing_ip
+        self.incoming_ip = incoming_ip
+        self.incoming_port = incoming_port
+        self.outgoing_port = outgoing_port
+        self.request_timeout = request_timeout
+        self.request_retries = request_retries
+        self.send_receipt = send_receipt
+
         self.context = zmq.Context()
         self.incoming_socket = self.context.socket(zmq.REP)
         self.incoming_socket.bind(
             "tcp://{}:{}".format(
-                self.light_server_json.incomming_ip_address,
-                self.light_server_json.server_to_me_port
+                self.incoming_ip,
+                self.incoming_port
             )
         )
 
         self.socket_thread = threading.Thread(target=self.run_message_server)
         self.socket_thread.start()
 
+    def __del__(self):
+        self.continue_message_server = False
+
     def _decoder(self, dict):
         return namedtuple('X', dict.keys())(*dict.values())
 
+    server_events = Events()
+    continue_message_server = True
+
     def run_message_server(self):
-        while True:
+        while self.continue_message_server:
             #  Wait for next request from client
             message = self.incoming_socket.recv()
-            self.incoming_socket.send(b"ack")
+            if self.send_receipt:
+                self.incoming_socket.send(b"ack")
             logging.info("Received request: %s" % message)
             data = json.loads(message.decode('utf-8'), object_hook=self._decoder)
-            self.handler(data)
+            self.server_events.on_message_receive(data)
             time.sleep(0.2)
 
-    def send_to_light_server(self, data):
+    def send(self, data):
+        print("Sending!!!! " + str(data))
+        data = json.dumps(data.__dict__)
         logging.info("Connecting to server…")
         client = self.context.socket(zmq.REQ)
-        client.connect("tcp://{}:{}".format(self.light_server_json.ip_address, self.light_server_json.me_to_server_port))
+        client.connect("tcp://{}:{}".format(self.outgoing_ip, self.outgoing_port))
 
         request = str(data).encode()
-        logging.info("Sending (%s)", request)
+        #logging.info("Sending (%s)", request)
         client.send(request)
 
-        retries_left = self.light_server_json.request_retries
-        while True:
-            if (client.poll(self.light_server_json.request_timeout) & zmq.POLLIN) != 0:
+        retries_left = 0# = self.request_retries
+        while False:
+            if (client.poll(self.request_timeout) & zmq.POLLIN) != 0:
                 reply = client.recv()
                 if reply == b"ack":
                     logging.info("Server replied OK (%s)", reply)
@@ -69,6 +86,6 @@ class MessageBus:
             logging.info("Reconnecting to server…")
             # Create new connection
             client = self.context.socket(zmq.REQ)
-            client.connect("tcp://{}:{}".format(self.light_server_json.ip_address, self.light_server_json.me_to_server_port))
+            client.connect("tcp://{}:{}".format(self.outgoing_ip, self.outgoing_port))
             logging.info("Resending (%s)", request)
             client.send(request)

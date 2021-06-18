@@ -1,5 +1,6 @@
 import datetime
 
+from FhaCommon import ControlPanelState
 from FhaServer.Constants import Time as TimeConstant
 from FhaServer.State.State import State
 
@@ -9,6 +10,7 @@ class WakingUpState(State):
     def __init__(self, wake_up_time):
         self.wake_up_time = wake_up_time
         super().__init__(None)
+        self.panel_state = ControlPanelState.MINIMAL
 
     # region Button Actions
 
