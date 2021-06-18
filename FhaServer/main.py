@@ -29,12 +29,11 @@ class Runner:
         self.client = JsonConfigurationReader.default_reader.read('Clients')[0]
         self.message_bus = MessageBus(
             outgoing_ip=self.client.ip_address,
-            incoming_ip='*',
+            incoming_ip="192.168.0.162",
             incoming_port=self.client.from_client_port,
             outgoing_port=self.client.to_client_port,
             request_timeout=self.client.request_timeout,
-            request_retries=self.client.request_retries,
-            send_receipt=False
+            request_retries=self.client.request_retries
         )
 
         self.message_bus.server_events.on_message_receive += self.on_server_receive

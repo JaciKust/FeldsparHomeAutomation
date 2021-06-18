@@ -29,13 +29,12 @@ class Runner:
 
         mb_config = JsonConfigurationReader.default_reader.read('LightServer')
         self.message_bus = MessageBus(
-            mb_config.outgoing_ip,
-            mb_config.incoming_ip,
-            mb_config.incoming_port,
-            mb_config.outgoing_port,
-            mb_config.request_timeout,
-            mb_config.request_retries,
-            False
+            outgoing_ip=mb_config.outgoing_ip,
+            incoming_ip="192.168.0.158", #mb_config.incoming_ip,
+            incoming_port=mb_config.incoming_port,
+            outgoing_port=mb_config.outgoing_port,
+            request_timeout=mb_config.request_timeout,
+            request_retries=mb_config.request_retries
         )
 
         self.message_bus.server_events.on_message_receive += self.on_server_receive
@@ -48,6 +47,7 @@ class Runner:
             button_colors = self._get_colors_for_button(button)
             rgb_button = ControlPanelButton(button_colors, button)
             created.append(rgb_button)
+
         return ControlPanel(created, "First Control Panel")
 
     def _get_colors_for_button(self, button):

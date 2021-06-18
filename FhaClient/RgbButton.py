@@ -33,6 +33,8 @@ class RgbButton:
         self.colors = [Color.BLACK.as_rgb_array(), Color.BLACK.as_rgb_array(), Color.BLACK.as_rgb_array()]
         self.refresh_color()
 
+        self.button_events = Events()
+
     def refresh_color(self):
         self.set_button_color(self.colors[ButtonConstant.DEFAULT_COLOR])
 
@@ -55,7 +57,6 @@ class RgbButton:
         time.sleep(0.1)
         return button_press_time, has_long_press_been_set, has_short_press_been_set
 
-    button_events = Events()
     _is_pressed = False
 
     def _capture_button_press(self, channel):
@@ -87,6 +88,7 @@ class RgbButton:
             #self.message_bus.send_to_light_server("%s~%f" % (self.name, button_press_time))
             # TODO: Eventually this should send the start and end time of the button press.
             # This would allow for doing double button presses or whatever.
+
             self.button_events.on_depressed(self.trigger_pin, button_press_time)
             self.wait_for_button_release(self.trigger_pin)
 
